@@ -28,4 +28,4 @@ Workout.create(title: "Push-Ups", description: "A basic push up is an effective
 Workout.create(title: "Pull-Ups", description: "Pull ups work all of the “pull”
      muscles in your body: your back, biceps, forearms. They are indicative of your level of fitness.", level:"", user_id: 2, category_id: 2)
 
-Workout.create(title: "Sit-Ups", description: "Psit ups can help build your core and abdominal muscles.",level:"", user_id: 3, category_id: 1)
+Workout.create(title: "Sit-Ups", description: "Sit ups can help build your core and abdominal muscles.",level:"", user_id: 3, category_id: 1)

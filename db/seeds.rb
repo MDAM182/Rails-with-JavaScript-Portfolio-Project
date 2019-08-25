@@ -9,3 +9,15 @@ Workout.create(level:'Beginner')
 Workout.create(level:'Intermediate')
 Workout.create(level:'Advanced')
 Workout.create(level:'Expert')
+
+Workout.create(title: "Push-Ups", description: "A basic push up is an effective
+  way to strengthen the chest and arm muscles and can be easily scaled as you get stronger.")
+
+Workout.create(title: "Pull-Ups", description: "Pull ups work all of the “pull”
+     muscles in your body: your back, biceps, forearms. They are indicative of your level of fitness.")
+
+Workout.create(title: "Sit-Ups", description: "Psit ups can help build your core and abdominal muscles.")
+
+Categorey.create(name: "Core")
+Categorey.create(name: "Upperbody")
+Categorey.create(name: "Lowerbody")

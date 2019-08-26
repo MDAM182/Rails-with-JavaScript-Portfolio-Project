@@ -14,6 +14,10 @@ class WorkoutsController < ApplicationController
       end
     else
       @workouts = Workout.all
+      respond_to do |f|
+        f.html {render :index}
+        f.json {render json: @workouts}
+      end
     end
   end
 
@@ -26,7 +30,10 @@ class WorkoutsController < ApplicationController
      @workout.user = current_user
      if @workout.save
       flash[:success] = "Workout was successfully created"
-      redirect_to workout_path(@workout)
+        respond_to do |f|
+          f.html {redirect_to workout_path(@workout)}
+          f.json {render json: @workouts}
+        end
     else
       render 'new'
     end
@@ -55,6 +62,10 @@ class WorkoutsController < ApplicationController
       end
     else
       @workout = Workout.find(params[:id])
+      respond_to do |f|
+        f.html {render :show}
+        f.json {render json: @workout}
+      end
     end
   end
 

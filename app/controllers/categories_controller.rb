@@ -3,6 +3,10 @@ class CategoriesController < ApplicationController
 
   def index
     @categories = Category.all
+    respond_to do |f|
+      f.html {render :index}
+      f.json {render json: @categories}
+    end
 
   end
 
@@ -14,7 +18,9 @@ class CategoriesController < ApplicationController
     @category = Category.new(category_params)
     if @category.save
       flash[:success] = "Category was created successfully"
-      redirect_to categories_path
+      respond_to do |f|
+        f.html {redirect_to categories_path}
+        f.json {render json: @category}
     else
       render 'new'
     end
@@ -44,6 +50,9 @@ class CategoriesController < ApplicationController
         end
       else
         @category = Category.find(params[:id])
+        respond_to do |f|
+          f.html {render :show}
+          f.json {render json: @category}
       end
   end
 

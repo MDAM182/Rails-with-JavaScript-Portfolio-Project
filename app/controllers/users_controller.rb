@@ -5,6 +5,10 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
+    respond_to do |f|
+			f.html {render :index}
+			f.json {render json: @users}
+		end
   end
 
   def new
@@ -16,7 +20,10 @@ class UsersController < ApplicationController
    if @user.save
      session[:user_id] = @user.id
      flash[:success] = "Welcome to the Exercise Room #{@user.username}!"
-     redirect_to user_path(@user)
+      respond_to do |f|
+        f.html {redirect_to user_path(@user)}
+        f.json {render json: @user}
+      end
    else
      render 'new'
    end
@@ -37,6 +44,10 @@ class UsersController < ApplicationController
 
   def show
     @user_workouts = @user.workouts.all
+    respond_to do |f|
+			f.html {render :show}
+			f.json {render json: @user}
+		end
   end
 
   def destroy

@@ -1,4 +1,4 @@
-# Rails-Portfolio-Project
+# Rails with JavaScript Portfolio Project
 
 # Description
 Welcome to Exercise Room, A fitness blog app that allows users to connect and find different workouts that they can use for they're daily workout routine! This was build with dynamic features possible only through JavaScript and a JSON API.

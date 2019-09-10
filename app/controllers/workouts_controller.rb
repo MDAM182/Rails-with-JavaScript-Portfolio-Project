@@ -30,10 +30,7 @@ class WorkoutsController < ApplicationController
      @workout.user = current_user
      if @workout.save
       flash[:success] = "Workout was successfully created"
-        respond_to do |f|
-          f.html {redirect_to workout_path(@workout)}
-          f.json {render json: @workouts}
-        end
+        render json: @workout
     else
       render 'new'
     end

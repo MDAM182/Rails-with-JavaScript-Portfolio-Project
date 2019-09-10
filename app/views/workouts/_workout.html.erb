@@ -14,7 +14,7 @@
           </div>
         </div>
         <% if workout.category %>
-          <p>Categories: <%= render workout.category %></p>
+          <p>Categories: <%= render workout.category, class: "workout_category" %></p>
         <% end %>
 
         <% if logged_in? && (current_user == workout.user || current_user.admin?) %>

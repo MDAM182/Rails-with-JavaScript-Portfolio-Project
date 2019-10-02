@@ -1,0 +1,9 @@
+<div class="workouts index"> </div>
+
+
+<h1 align="center">Listing all workouts</h1>
+<div align="center">
+
+<%= render 'workout', obj: @workouts%>
+
+</div>

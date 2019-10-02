@@ -15,3 +15,6 @@
 //= require activestorage
 //= require_tree .
 //= require bootstrap-sprockets
+//= require cable
+//= workout
+//= user

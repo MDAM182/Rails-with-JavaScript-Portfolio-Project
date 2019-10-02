@@ -1,46 +1,4 @@
-$(() => {
-  bindClickHandlersUser()
-})
 
-const bindClickHandlersUser = () => {
-  $('.all_users').on('click', e => { //how does it know it's from navigation layout
-    e.preventDefault()
-    history.pushState(null, null, "users")
-    getUsers()
-
-  })
-//
-  $(document).on('click', ".show_link", function(e) {
-    e.preventDefault()
-    $('#app-container').html('')
-    let id = $(this).attr('data-id')
-    fetch(`/users/${id}.json`)
-    .then(res => res.json())
-    .then(user => {
-      let newUser = new User(user)
-
-      let userHtml = newUser.formatShow()
-
-      $('#app-container').append(userHtml)
-
-    })
-  })
-};
-
-const getUsers = () => {
-  fetch(`/users.json`)
-    .then(res => res.json())
-    .then(users => {
-      $('#app-container').html('')
-      users.forEach(user => {
-        let newUser = new User(user)
-        // console.log(newUser)
-        let userHtml = newUser.formatIndex()
-        // console.log(userHtml)
-        $('#app-container').append(userHtml)
-      })
-    })
-}
 
 function User(user) {
   this.id = user.id
@@ -50,7 +8,8 @@ function User(user) {
 }
 
 User.prototype.formatIndex = function()  {
-  let userHtml = `
+  let userHtml =  
+  `
     <a href="/users/${this.id}" data-id="${this.id}" class="show_link"><h1>${this.username}</h1>
 `
   return userHtml
@@ -91,3 +50,54 @@ User.prototype.formatShow = function()  {
 `
   return userHtml
 }
+
+const bindClickHandlersUser = () => {
+  $('.all_users').on('click', e => {
+    e.preventDefault()
+    history.pushState(null, null, "/users")
+    getUsers()
+
+  })
+//
+  $(document).on('click', ".show_link", function(e) {
+    e.preventDefault()
+    $('#app-container').html('')
+    let id = $(this).attr('data-id')
+    fetch(`/users/${id}.json`)
+    .then(res => res.json())
+    .then(user => {
+      let newUser = new User(user)
+
+      let userHtml = newUser.formatShow()
+
+      $('#app-container').append(userHtml)
+
+    })
+  })
+};
+
+const getUsers = () => {
+  fetch(`/users.json`)
+    .then(res => res.json())
+    .then(users => {
+      $('#app-container').html('')
+      users.forEach(user => {
+        let newUser = new User(user)
+        // console.log(newUser)
+        let userHtml = newUser.formatIndex()
+        // console.log(userHtml)
+        $('#app-container').append(userHtml)
+      })
+    })
+}
+
+$(() => {
+  bindClickHandlersUser();
+
+
+    if ($('.users.index').length > 0) {
+    history.pushState(null, null, `/users`)
+    getUsers()
+    console.log('ON THE USERS INDEX PAGE')
+  }
+})

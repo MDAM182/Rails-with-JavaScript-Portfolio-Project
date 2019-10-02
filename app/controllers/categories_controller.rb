@@ -7,7 +7,6 @@ class CategoriesController < ApplicationController
       f.html {render :index}
       f.json {render json: @categories}
     end
-
   end
 
   def new
@@ -16,14 +15,15 @@ class CategoriesController < ApplicationController
 
   def create
     @category = Category.new(category_params)
-    if @category.save
-      flash[:success] = "Category was created successfully"
-      respond_to do |f|
-        f.html {redirect_to categories_path}
-        f.json {render json: @category}
-    else
-      render 'new'
-    end
+      if @category.save
+        flash[:success] = "Category was created successfully"
+        respond_to do |f|
+          f.html {redirect_to categories_path(@category)}
+          f.json {render json: @category}
+        end
+      else
+        render 'new'
+      end
   end
 
   def edit
@@ -54,6 +54,7 @@ class CategoriesController < ApplicationController
           f.html {render :show}
           f.json {render json: @category}
       end
+    end
   end
 
   # def destroy
@@ -73,5 +74,4 @@ private
       redirect_to categories_path
     end
   end
-
 end

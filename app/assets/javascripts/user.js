@@ -5,12 +5,24 @@ function User(user) {
   this.username = user.username
   this.email = user.email
   this.password = user.password
+  this.workouts = user.workouts
+  this.categories = user.categories
+
 }
 
 User.prototype.formatIndex = function()  {
-  let userHtml =  
-  `
-    <a href="/users/${this.id}" data-id="${this.id}" class="show_link"><h1>${this.username}</h1>
+  let userHtml =
+  ` <div align="center">
+      <ul class="listing">
+        <div class="row">
+          <div class="well col-md-4 col-md-offset-4">
+            <li class="workout-title">
+             <a href="/users/${this.id}" data-id="${this.id}" class="show_link"><h1>${this.username}</h1>
+            </li>
+          </div>
+        </div>
+      </ul>
+    </div>
 `
   return userHtml
 }
@@ -30,12 +42,21 @@ User.prototype.formatShow = function()  {
     <div class="col-xs-8 col-xs-offset-2">
       <div class="well well-lg">
         <div class="workout-title">
-          <h1>${this.title}</h1>
+         <a href="/workouts/${this.id}" data-id="${this.id}" class="show_workout">
+          <h1> ${this.workouts[0].title} </h1> </a>
         <div class="workout-body">
-          <h3> </h3>
-        <div class="workout-meta-details">
+          <h4 class="center description"><strong> Description: </strong></h4>
+          <hr>
+          <h4> ${this.workouts[0].description} </h4>
 
-        <small>Created by: </small>
+            <h4> ${this.workouts[0].level} </h4>
+
+        <div class="workout-meta-details">
+        <small>Category: </small>
+        <a href="/categories/${this.id}" data-id="${this.id}">
+              <h4> ${this.categories[0].name} </h4> </a
+
+
       </div>
       <div class="workout-actions">
       </div>
@@ -57,6 +78,7 @@ const bindClickHandlersUser = () => {
     history.pushState(null, null, "/users")
     getUsers()
 
+
   })
 //
   $(document).on('click', ".show_link", function(e) {
@@ -74,6 +96,7 @@ const bindClickHandlersUser = () => {
 
     })
   })
+
 };
 
 const getUsers = () => {
@@ -81,6 +104,7 @@ const getUsers = () => {
     .then(res => res.json())
     .then(users => {
       $('#app-container').html('')
+      $('#app-container').append(`<h1 align="center">All Members</h1>`)
       users.forEach(user => {
         let newUser = new User(user)
         // console.log(newUser)
@@ -91,6 +115,14 @@ const getUsers = () => {
     })
 }
 
+// const workoutData = () => {
+//   workouts.forEach(workout => {
+//     let newWo = new Workout(workout)
+//       return newWo
+//
+//   })
+// }
+
 $(() => {
   bindClickHandlersUser();
 
@@ -98,6 +130,6 @@ $(() => {
     if ($('.users.index').length > 0) {
     history.pushState(null, null, `/users`)
     getUsers()
-    console.log('ON THE USERS INDEX PAGE')
+    // console.log('ON THE USERS INDEX PAGE')
   }
 })

@@ -11,6 +11,7 @@ function Workout(workout) { //constructor
   this.user_id = workout.user_id
   this.category_id = workout.category_id
   this.user = workout.user
+  this.category = workout.category
 
 }
 
@@ -30,10 +31,15 @@ Workout.prototype.formatIndex = function()  {
               <h1>${this.title}</h1> </a>
             </div>
             <div class="workout-body">
-              <h3> ${this.description}</h3>
+               <h4> ${this.description}</h4>
+
             <div class="workout-meta-details">
-            <small>Created by: ${this.user.username} </small>
+            <small>Created by:<a href="/users/${this.id}" data-id="${this.id}" class="show_link">
+              <h4>${this.user.username}</h3> </a> </small>
             </div>
+            <small>Category: </small>
+            <a href="/categories/${this.id}" data-id="${this.id}">
+                  <h4> ${this.category.name} </h4> </a>
             <div class="workout-actions">
               <a href="/workouts/${this.id}/edit" data-id="${this.id}" class=edit_workout_path >
              </div>
@@ -55,8 +61,26 @@ Workout.prototype.formatIndex = function()  {
 
 Workout.prototype.formatShow = function()  {
   let workoutHtml = `
-  <h2 align="center">Title: ${this.title} </h2>
+  <h2 align="center">${this.title} </h2>
+
   <div class="well col-xs-8 col-xs-offset-2">
+    <ul class="listing">
+      <div class="row center">
+        <div class="col-md-4 col-md-offset-4">
+
+            <li>Created by:</li>
+            <a href="/users/${this.id}" data-id="${this.id}" class="show_link">
+              <h1>${this.user.username}</h1>
+            </a>
+
+          <div class="workout-body">
+            <h4 class="center description"> <strong> Description: </strong> </h4>
+              <p> ${this.description} </p>
+                  <h4> ${this.level} </h4>
+          </div>
+        </div>
+      </div>
+    </ul/
   </div>
 `
   return workoutHtml
@@ -67,21 +91,7 @@ const bindClickHandlers = () => {
     e.preventDefault()
 
     history.pushState(null, null, `/workouts`) //with forward slash it does not append
-    fetch(`/workouts.json`)
-      .then(res => res.json())
-      .then(workouts => {
-        $('#app-container').html('')
-        $('#app-container').append(`<h1 align="center">Listing all workouts</h1>`)
-        workouts.forEach(workout => {
-          let newWorkout = new Workout(workout)
-          // console.log(newUser)
-          let workoutHtml = newWorkout.formatIndex()
-          // console.log(userHtml)
-          $('#app-container').append(workoutHtml)
-
-        })
-
-      })
+    getWorkouts()
 
   })
 
@@ -105,21 +115,36 @@ const bindClickHandlers = () => {
     e.preventDefault()
 
     const values = $(this).serialize()
-    $.workout("/workouts", values).done(function(data) {
+    $.post("/workouts", values).done(function(data) {
       $('#app-container').html("")
       const newWorkout = new Workout(data)
       const htmlToAdd = newWorkout.formatShow()
 
-      $('#app-container').html("htmlToAdd")
+      $('#app-container').html(htmlToAdd)
 
     })
   })
 }
 
-  //
-  // const getWorkouts = () => {
-  //
-  // }
+
+  const getWorkouts = () => {
+    fetch(`/workouts.json`)
+      .then(res => res.json())
+      .then(workouts => {
+        $('#app-container').html('')
+        $('#app-container').append(`<h1 align="center">Listing all workouts</h1>`)
+        workouts.forEach(workout => {
+          let newWorkout = new Workout(workout)
+          // console.log(newUser)
+          let workoutHtml = newWorkout.formatIndex()
+          // console.log(userHtml)
+          $('#app-container').append(workoutHtml)
+
+        })
+
+      })
+
+  }
 
   $(() => {
     bindClickHandlers();
@@ -134,14 +159,14 @@ const bindClickHandlers = () => {
         $('#app-container').append(`<h1 align="center">Listing all workouts</h1>`)
         workouts.forEach(workout => {
           let newWorkout = new Workout(workout)
-          // console.log(newUser)
+          // console.log(newWorkout)
           let workoutHtml = newWorkout.formatIndex()
-          // console.log(userHtml)
+          // console.log(workoutHtml)
           $('#app-container').append(workoutHtml)
 
         })
       })
     // runs only when we finds the div with workouts & index classes
-    console.log('ON THE WORKOUTS INDEX PAGE')
+    // console.log('ON THE WORKOUTS INDEX PAGE')
   }
 })
